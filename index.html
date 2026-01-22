@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al-Quran Class - Tajweed Masterclass</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #064e3b;
+            --primary-dark: #022c22;
+            --secondary: #d4af37;
+            --accent: #f59e0b;
+            --bg-light: #fdfbf7;
+            --text-main: #1e293b;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #111;
+            color: var(--text-main);
+            overflow: hidden; 
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            background: #000;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--bg-light);
+            display: flex;
+            flex-direction: column;
+            padding: 50px 100px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(0.95);
+            z-index: 1;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 2;
+            transform: scale(1);
+        }
+
+        /* TYPOGRAPHY */
+        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--primary); }
+        .arabic { 
+            font-family: 'Amiri', serif; 
+            direction: rtl; 
+            font-size: 3.5rem; 
+            line-height: 1.4;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+        .translation { font-style: italic; color: #64748b; font-size: 1.2rem; margin-top: 10px; }
+
+        .slide-header {
+            border-bottom: 3px solid var(--secondary);
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+        }
+
+        .slide-title { font-size: 2.5rem; text-transform: uppercase; letter-spacing: 3px; }
+
+        /* LAYOUTS */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .tile-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            width: 100%;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            border-top: 5px solid var(--secondary);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .card:hover { transform: translateY(-5px); }
+
+        .rule-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--primary);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        /* NAVIGATION & PROGRESS */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 40px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .btn-nav {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+            transition: all 0.3s ease;
+        }
+        .btn-nav:hover { background: var(--secondary); transform: scale(1.1); }
+        .btn-nav:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        .progress-bar {
+            position: fixed;
+            top: 0; left: 0;
+            height: 6px;
+            background: var(--secondary);
+            z-index: 1000;
+            transition: width 0.4s ease;
+        }
+
+        /* SPECIAL SLIDES */
+        .intro-slide { 
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%); 
+            color: var(--white); 
+            justify-content: center; 
+            text-align: center;
+            padding: 0;
+        }
+        .intro-slide h1 { color: var(--secondary); font-size: 5.5rem; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .intro-slide p { font-size: 1.5rem; opacity: 0.9; }
+
+        .letter-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .letter-box {
+            background: var(--white);
+            color: var(--primary);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            font-family: 'Amiri', serif;
+        }
+
+        .image-box {
+            width: 100%;
+            height: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 8px solid var(--white);
+            box-shadow: var(--shadow);
+        }
+        .image-box img { width: 100%; height: 100%; object-fit: cover; }
+    </style>
+</head>
+<body>
+
+    <div class="progress-bar" id="progress"></div>
+
+    <div class="presentation-container">
+        
+        <!-- Slide 1: Welcome -->
+        <div class="slide active intro-slide" id="slide-0">
+            <h1 style="font-family: 'Playfair Display', serif;">Al-Quran Class</h1>
+            <p style="letter-spacing: 12px; margin-top: 10px; font-weight: 300;">TAJWEED MASTERCLASS</p>
+            <div style="margin-top: 80px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 40px; display: inline-block;">
+                <p style="font-size: 1rem; color: var(--secondary); font-weight: 600;">Conducted by:</p>
+                <h2 style="color: var(--white); margin: 15px 0; font-size: 2.5rem;">Hafiz Mukerrom Hossain Siddique Al-Quraishy</h2>
+                <p style="font-size: 1.1rem; opacity: 0.7;">Islami Bank Training And Research Academy</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Importance of Tarteel -->
+        <div class="slide" id="slide-1">
+            <div class="slide-header">
+                <h2 class="slide-title">The Essence of Recitation</h2>
+            </div>
+            <div class="content-grid">
+                <div>
+                    <p class="arabic">وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا</p>
+                    <p class="translation">"And recite the Qur'an in slow measured rhythmic tone" (73:4)</p>
+                    <p style="margin-top: 30px; line-height: 1.8; font-size: 1.2rem;">
+                        <strong>Tarteel</strong> means to recite slowly, making the letters clear. This assists in understanding and pondering the divine message. As Ibn Kathir stated, it is the key to spiritual connection with the text.
+                    </p>
+                </div>
+                <div class="image-box">
+                    <img src="https://images.unsplash.com/photo-1584281723500-b609c91624c4?auto=format&fit=crop&q=80&w=1280" alt="Quran">
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Harakat & Sakin -->
+        <div class="slide" id="slide-2">
+            <div class="slide-header">
+                <h2 class="slide-title">Basic Movements (Harakat)</h2>
+            </div>
+            <div class="tile-container">
+                <div class="card">
+                    <div class="arabic" style="font-size: 4rem;">◌َ</div>
+                    <h3>Fattah (Zabar)</h3>
+                    <p>The "A" sound. A diagonal stroke above the letter.</p>
+                </div>
+                <div class="card">
+                    <div class="arabic" style="font-size: 4rem;">◌ِ</div>
+                    <h3>Kasrah (Zer)</h3>
+                    <p>The "I" sound. A diagonal stroke below the letter.</p>
+                </div>
+                <div class="card">
+                    <div class="arabic" style="font-size: 4rem;">◌ُ</div>
+                    <h3>Dammah (Pesh)</h3>
+                    <p>The "U" sound. A small loop above the letter.</p>
+                </div>
+                <div class="card">
+                    <div class="arabic" style="font-size: 4rem;">◌ْ</div>
+                    <h3>Sakin (Jazam)</h3>
+                    <p>Absence of a vowel. Connects the letter to the one before it.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Madd Rules (1-3 Alif) -->
+        <div class="slide" id="slide-3">
+            <div class="slide-header">
+                <h2 class="slide-title">Madd Rules (1-3 Alif)</h2>
+            </div>
+            <div class="tile-container">
+                <div class="card">
+                    <span class="rule-badge">1 Alif</span>
+                    <h3>Madd-e-Tabaee</h3>
+                    <p>The natural prolongation.</p>
+                    <div class="arabic" style="font-size: 2rem;">قَالَ , قِيلَ , يَقُولُ</div>
+                </div>
+                <div class="card">
+                    <span class="rule-badge">1 Alif</span>
+                    <h3>Madd-e-Leen</h3>
+                    <p>Soft pronunciation of Wow/Ya Sakin.</p>
+                    <div class="arabic" style="font-size: 2rem;">خَوْفٍ , قُرَيْشٍ</div>
+                </div>
+                <div class="card">
+                    <span class="rule-badge">3 Alifs</span>
+                    <h3>Madd-e-Ardee</h3>
+                    <p>Occurs when stopping on a word.</p>
+                    <div class="arabic" style="font-size: 2rem;">نَسْتَعِينُ</div>
+                </div>
+                <div class="card">
+                    <span class="rule-badge">3 Alifs</span>
+                    <h3>Madd-e-Munfasil</h3>
+                    <p>Separated Madd across two words.</p>
+                    <div class="arabic" style="font-size: 2rem;">بِمَا أُنْزِلَ</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Compulsory Madd (4 Alif) -->
+        <div class="slide" id="slide-4">
+            <div class="slide-header">
+                <h2 class="slide-title">Madd-e-Lazim & Muttasil</h2>
+            </div>
+            <div class="content-grid">
+                <div class="card" style="height: 100%;">
+                    <span class="rule-badge">4 Alifs</span>
+                    <h3>Madd-e-Muttasil (Joined)</h3>
+                    <p>Madd letter and Hamzah in the same word.</p>
+                    <div class="arabic">جَاءَ , السَّمَاء</div>
+                    <p style="margin-top: 20px; font-size: 0.9rem; color: #64748b;">Must be prolonged for 4 counts.</p>
+                </div>
+                <div class="card" style="height: 100%;">
+                    <span class="rule-badge">4-5 Alifs</span>
+                    <h3>Madd-e-Lazim (Compulsory)</h3>
+                    <p>Followed by Sakin or Tasdeed.</p>
+                    <div class="arabic">الضَّالِّينَ , آلْآنَ</div>
+                    <p style="margin-top: 20px; font-size: 0.9rem; color: #64748b;">Found in Huroof-e-Muqatta'at and words with Shaddah.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Noon Sakin & Tanween -->
+        <div class="slide" id="slide-5">
+            <div class="slide-header">
+                <h2 class="slide-title">Noon Sakin & Tanween</h2>
+            </div>
+            <p style="margin-bottom: 30px; font-size: 1.2rem;">Rules for <strong>Noon Sakin (نْ)</strong> and <strong>Tanween (ً  ٍ  ٌ)</strong>:</p>
+            <div class="tile-container">
+                <div class="card">
+                    <h3 style="color: var(--accent);">Izhaar (Clear)</h3>
+                    <p>ء ه ع ح غ خ</p>
+                    <div class="arabic" style="font-size: 1.8rem;">مِنْ خَوْفٍ</div>
+                </div>
+                <div class="card">
+                    <h3 style="color: #ec4899;">Iqlaab (Change)</h3>
+                    <p>Sound changes to Meem when followed by ب.</p>
+                    <div class="arabic" style="font-size: 1.8rem;">مِنْ بَعْدِ</div>
+                </div>
+                <div class="card">
+                    <h3 style="color: var(--primary);">Idhgaam (Merge)</h3>
+                    <p>ي ر م ل ن و</p>
+                    <div class="arabic" style="font-size: 1.8rem;">مَنْ يَقُولُ</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Ikhfa Letters -->
+        <div class="slide" id="slide-6">
+            <div class="slide-header">
+                <h2 class="slide-title">The Art of Ikhfa</h2>
+            </div>
+            <div style="text-align: center;">
+                <p style="font-size: 1.3rem; margin-bottom: 20px;">Ikhfa means <strong>Concealment</strong>. Hiding the Noon sound with Gunnah.</p>
+                <div class="letter-grid">
+                    <div class="letter-box">ت</div><div class="letter-box">ث</div><div class="letter-box">ج</div>
+                    <div class="letter-box">د</div><div class="letter-box">ذ</div><div class="letter-box">ز</div>
+                    <div class="letter-box">س</div><div class="letter-box">ش</div><div class="letter-box">ص</div>
+                    <div class="letter-box">ض</div><div class="letter-box">ط</div><div class="letter-box">ظ</div>
+                    <div class="letter-box">ف</div><div class="letter-box">ق</div><div class="letter-box">ك</div>
+                </div>
+                <div style="margin-top: 40px; padding: 25px; background: white; border-radius: 15px; border: 2px dashed var(--secondary);">
+                    <p>When Noon Sakin or Tanween is followed by these 15 letters, suppress the sound in the nose for 2 counts.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Meem Sakin -->
+        <div class="slide" id="slide-7">
+            <div class="slide-header">
+                <h2 class="slide-title">Meem Sakin Rules</h2>
+            </div>
+            <div class="tile-container" style="align-items: center;">
+                <div class="card">
+                    <div class="arabic">ب</div>
+                    <h3>Ikhfa-e-Shafawi</h3>
+                    <p>Hiding Meem before Ba with Gunnah.</p>
+                </div>
+                <div class="card">
+                    <div class="arabic">م</div>
+                    <h3>Idhgaam-e-Shafawi</h3>
+                    <p>Merging Meem into another Meem.</p>
+                </div>
+                <div class="card">
+                    <div class="arabic">أ...ي</div>
+                    <h3>Izhaar-e-Shafawi</h3>
+                    <p>Clear pronunciation for all other letters.</p>
+                </div>
+            </div>
+            <div style="margin-top: 40px; text-align: center; color: var(--primary); font-weight: 600;">
+                <p>⚠️ Take special care when Meem Sakin is followed by Wow (و) or Fa (ف) to keep it clear!</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation -->
+    <div class="controls">
+        <button class="btn-nav" id="prevBtn" title="Previous Slide"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="btn-nav" id="nextBtn" title="Next Slide"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const progress = document.getElementById('progress');
+        let currentSlide = 0;
+
+        function updateSlide() {
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === currentSlide);
+            });
+            
+            // Update buttons
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+            
+            // Update progress
+            const progressPercent = ((currentSlide + 1) / slides.length) * 100;
+            progress.style.width = progressPercent + '%';
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        });
+
+        // Keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextBtn.click();
+            if (e.key === 'ArrowLeft') prevBtn.click();
+        });
+
+        // Touch support
+        let touchstartX = 0;
+        let touchendX = 0;
+        
+        document.addEventListener('touchstart', e => {
+            touchstartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchendX = e.changedTouches[0].screenX;
+            if (touchstartX - touchendX > 50) nextBtn.click();
+            if (touchendX - touchstartX > 50) prevBtn.click();
+        });
+
+        updateSlide();
+    </script>
+</body>
+</html>
