@@ -392,33 +392,43 @@ td {
     justify-content: center;
 }
 
-/* Controls */
+
+/* =========================
+   CONTROLS
+========================= */
 
 .controls {
-    min-height: 82px;
-    height: 10vh;
-    padding: 0 20px;
-    background: var(--ib-green-dark);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    min-height: 80px;
+    background: rgba(2, 38, 26, 0.98);
+    backdrop-filter: blur(10px);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
     border-top: 1px solid var(--card-border);
-    flex-shrink: 0;
+    z-index: 9999;
 }
 
 .btn {
-    padding: 14px 26px;
-    border-radius: 14px;
+    flex: 1;
+    height: 56px;
+    border-radius: 16px;
     border: 1px solid var(--card-border);
-    background: rgba(255,255,255,0.05);
+    background: rgba(255,255,255,0.06);
     color: white;
     font-weight: 700;
     cursor: pointer;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     transition: all 0.2s ease;
-    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+    font-size: 1rem;
 }
 
 .btn:hover:not(:disabled) {
@@ -427,35 +437,25 @@ td {
 }
 
 .btn:disabled {
-    opacity: 0.2;
+    opacity: 0.35;
     cursor: not-allowed;
 }
 
+#slideIndicator {
+    min-width: 70px;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
 /* =========================
-   TABLET
+   ADD EXTRA SPACE SO CONTENT
+   DOESN'T HIDE BEHIND BUTTONS
 ========================= */
 
-@media (max-width: 1024px) {
-
-    .slide {
-        padding: 22px 18px 100px;
-    }
-
-    .slide-heading {
-        font-size: clamp(1.8rem, 5vw, 3rem);
-    }
-
-    .main-title {
-        font-size: clamp(2.5rem, 10vw, 5rem);
-    }
-
-    .grid-container {
-        grid-template-columns: 1fr;
-    }
-
-    .alphabet-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
+.slide {
+    padding-bottom: 120px !important;
 }
 
 /* =========================
@@ -464,56 +464,25 @@ td {
 
 @media (max-width: 768px) {
 
-    .academy-brand span {
-        display: none;
-    }
-
-    .slide {
-        padding: 18px 14px 110px;
-    }
-
-    .slide-heading {
-        font-size: 2rem;
-        padding-left: 12px;
-    }
-
-    .slide-tag {
-        font-size: 0.8rem;
-    }
-
-    .main-title {
-        font-size: clamp(2.2rem, 11vw, 4rem);
-    }
-
-    .def-box,
-    .card p,
-    td,
-    th {
-        font-size: 0.95rem;
-    }
-
-    .alphabet-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .ghunnah-container {
-        grid-template-columns: 1fr;
-    }
-
-    table {
-        min-width: 600px;
-    }
-
     .controls {
         padding: 10px;
-        gap: 10px;
+        gap: 8px;
+        min-height: 74px;
     }
 
     .btn {
-        flex: 1;
-        justify-content: center;
-        padding: 12px 14px;
-        font-size: 0.9rem;
+        height: 50px;
+        font-size: 0.92rem;
+        border-radius: 14px;
+    }
+
+    #slideIndicator {
+        font-size: 0.75rem;
+        min-width: 58px;
+    }
+
+    .slide {
+        padding-bottom: 110px !important;
     }
 }
 
@@ -523,39 +492,28 @@ td {
 
 @media (max-width: 480px) {
 
-    .slide {
-        padding: 14px 12px 110px;
-    }
-
-    .slide-heading {
-        font-size: 1.7rem;
-    }
-
-    .main-title {
-        font-size: 2.3rem;
-    }
-
-    .alphabet-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-    }
-
-    .alphabet-card .char {
-        font-size: 2.5rem;
-    }
-
-    .letter-circle {
-        width: 72px;
-        height: 72px;
-        font-size: 1.8rem;
-    }
-
-    .card {
-        padding: 18px;
-    }
-
     .controls {
-        min-height: 78px;
+        min-height: 70px;
+        padding: 8px;
+    }
+
+    .btn {
+        height: 48px;
+        font-size: 0.88rem;
+        gap: 6px;
+    }
+
+    .btn span {
+        display: inline;
+    }
+
+    #slideIndicator {
+        font-size: 0.7rem;
+        min-width: 50px;
+    }
+
+    .slide {
+        padding-bottom: 105px !important;
     }
 }
         
