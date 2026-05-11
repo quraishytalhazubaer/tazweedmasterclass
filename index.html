@@ -13,17 +13,17 @@
         :root {
             --ib-green: #043927;
             --ib-green-dark: #02261a;
+            --ib-green-light: #06543a;
             --ib-gold: #c5a059;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
+            --ib-gold-glow: rgba(197, 160, 89, 0.4);
+            --text-white: #ffffff;
+            --text-muted: #cbd5e1;
             --bg-body: #02261a;
             --card-bg: rgba(255, 255, 255, 0.05);
             --card-border: rgba(197, 160, 89, 0.3);
-            --shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             --danger: #ef4444;
             --success: #10b981;
-            --blue: #93c5fd;
-            --white: #ffffff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -31,33 +31,29 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-body);
-            color: var(--text-main);
-            overflow: hidden;
+            color: var(--text-white);
             height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Typography */
         .arabic {
             font-family: 'Amiri', serif;
             direction: rtl;
-            font-size: clamp(2.2rem, 5vw, 2.8rem);
+            font-size: clamp(1.5rem, 5vh, 3rem);
             color: var(--ib-gold);
             line-height: 1.2;
         }
 
-        .highlight-gold { color: var(--ib-gold); font-weight: 700; }
-
-        /* Navigation Shell */
         .header-bar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            height: 80px;
+            height: min(8vh, 70px);
             background: var(--ib-green-dark);
             display: flex;
             align-items: center;
-            padding: 0 40px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            padding: 0 20px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.4);
             z-index: 100;
             border-bottom: 1px solid var(--card-border);
         }
@@ -65,18 +61,17 @@
         .academy-brand {
             font-weight: 800;
             color: var(--ib-gold);
-            font-size: 1.1rem;
+            font-size: clamp(0.7rem, 2vh, 0.85rem);
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .progress-track {
             flex: 1;
-            margin: 0 50px;
-            height: 6px;
+            margin: 0 20px;
+            height: 4px;
             background: rgba(255,255,255,0.1);
             border-radius: 10px;
             overflow: hidden;
@@ -86,50 +81,116 @@
             height: 100%;
             background: var(--ib-gold);
             width: 0%;
-            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
+            transition: width 0.4s ease;
+            box-shadow: 0 0 10px var(--ib-gold-glow);
         }
 
-        /* Slide Core */
-        .stage {
-            height: 100vh;
+        .viewport {
+            flex: 1;
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding-top: 80px;
-            padding-bottom: 80px;
+            padding: min(2vh, 15px);
+            overflow: hidden;
+            background: radial-gradient(circle at center, var(--ib-green-light) 0%, var(--ib-green-dark) 100%);
         }
 
         .slide {
             position: absolute;
-            width: 94%;
-            max-width: 1300px;
-            height: 75vh;
+            width: 100%;
+            max-width: 1100px;
+            height: 100%;
+            max-height: 100%;
             background: var(--ib-green);
-            border-radius: 32px;
+            border-radius: 24px;
             border: 1px solid var(--card-border);
             box-shadow: var(--shadow);
             display: none;
             flex-direction: column;
-            padding: 50px 70px;
+            justify-content: center;
+            padding: min(3vh, 30px) min(4vw, 40px);
             opacity: 0;
-            transform: scale(0.98) translateY(20px);
-            transition: all 0.5s ease;
-            overflow-y: auto;
+            transform: scale(0.98);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            overflow: hidden;
         }
 
-        .slide.active { 
-            display: flex; 
-            opacity: 1; 
-            transform: scale(1) translateY(0); 
+        .slide.active { display: flex; opacity: 1; transform: scale(1); }
+
+        /* Welcome Slide Specifics */
+        .welcome-slide {
+            background: linear-gradient(rgba(4, 57, 39, 0.85), rgba(4, 57, 39, 0.95)), url('https://images.unsplash.com/photo-1542816417-0983c9c9ad53?auto=format&fit=crop&q=80&w=2070') center/cover;
+            text-align: center;
+            border: 2px solid var(--ib-gold);
+            position: relative;
         }
 
-        /* Design Elements */
+        .institution-header {
+            margin-bottom: min(4vh, 40px);
+            animation: fadeInDown 1s ease;
+        }
+
+        .institution-logo {
+            width: min(150px, 20vw);
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 10px var(--ib-gold-glow));
+        }
+
+        .institution-name {
+            font-size: clamp(0.7rem, 2vh, 0.9rem);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--ib-gold);
+            font-weight: 700;
+        }
+
+        .course-title-area {
+            margin: min(2vh, 20px) 0;
+            padding: 40px 0;
+            position: relative;
+        }
+
+        .course-title-area::before, .course-title-area::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--ib-gold), transparent);
+        }
+        .course-title-area::before { top: 0; }
+        .course-title-area::after { bottom: 0; }
+
+        .main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 10vh, 5rem);
+            color: var(--text-white);
+            line-height: 1.1;
+            margin-bottom: 10px;
+            font-weight: 900;
+        }
+
+        .instructor-reveal {
+            margin-top: min(5vh, 50px);
+            background: rgba(197, 160, 89, 0.1);
+            display: inline-block;
+            padding: 15px 40px;
+            border-radius: 50px;
+            border: 1px solid var(--ib-gold);
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .slide-heading {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(2rem, 4vw, 3.2rem);
-            color: var(--white);
-            margin-bottom: 8px;
+            font-size: clamp(1.3rem, 3.5vh, 2.4rem);
+            color: var(--text-white);
+            margin-bottom: min(1vh, 8px);
             border-left: 4px solid var(--ib-gold);
             padding-left: 15px;
         }
@@ -138,550 +199,569 @@
             color: var(--ib-gold);
             text-transform: uppercase;
             font-weight: 800;
-            letter-spacing: 3px;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
+            letter-spacing: 2px;
+            font-size: clamp(0.55rem, 1.5vh, 0.7rem);
+            margin-bottom: min(1.5vh, 10px);
+            display: block;
         }
 
-        /* Focused Madd/Leen Cards */
-        .madd-focus-grid {
+        .def-box {
+            background: rgba(0,0,0,0.25);
+            border-left: 2px solid var(--ib-gold);
+            padding: min(1.2vh, 12px);
+            margin-bottom: min(1.5vh, 15px);
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: clamp(0.7rem, 1.8vh, 0.85rem);
+            line-height: 1.4;
+        }
+
+        .grid-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 35px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: min(1.5vh, 15px);
+            margin-top: min(1.5vh, 15px);
         }
 
-        .madd-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 24px;
-            padding: 40px 20px;
-            text-align: center;
-            position: relative;
-            transition: 0.4s;
+        .alphabet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            direction: rtl;
         }
 
-        .madd-card:hover {
-            border-color: var(--ib-gold);
-            transform: translateY(-10px);
-            background: rgba(255,255,255,0.08);
+        .alphabet-card:last-child {
+            grid-column: 1 / -1;
+            justify-self: center;
+            min-width: 150px;
         }
 
-        .madd-letter-box {
-            font-family: 'Amiri', serif;
-            font-size: 5rem;
-            color: var(--ib-green-dark);
-            background: var(--ib-gold);
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-
-        .vowel-formula {
-            font-size: 1.8rem;
-            background: rgba(0,0,0,0.3);
-            color: var(--ib-gold);
-            padding: 10px 20px;
+        .alphabet-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(197, 160, 89, 0.2);
             border-radius: 12px;
-            display: inline-block;
-            margin: 15px 0;
-            border: 1px solid var(--card-border);
+            padding: 10px;
+            text-align: center;
+            transition: all 0.2s ease;
         }
 
-        /* Content Blocks */
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 25px;
-        }
-
-        .feature-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            padding: 30px;
-            border-radius: 20px;
-            position: relative;
-            transition: 0.3s;
-        }
-
-        .feature-card:hover {
+        .alphabet-card:hover {
+            background: rgba(197, 160, 89, 0.1);
             border-color: var(--ib-gold);
         }
 
-        .feature-card h4 {
-            font-size: 1.3rem;
+        .alphabet-card .char {
+            font-family: 'Amiri', serif;
+            font-size: 2rem;
             color: var(--ib-gold);
+            display: block;
+        }
+
+        .alphabet-card .name {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: min(2vh, 20px);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .card h3 {
+            font-size: clamp(0.9rem, 2.2vh, 1.15rem);
+            color: var(--ib-gold);
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            font-size: clamp(0.65rem, 1.7vh, 0.8rem);
+            line-height: 1.4;
+            color: var(--text-muted);
             margin-bottom: 10px;
         }
 
-        .bit-badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 5px 15px;
-            border-radius: 30px;
-            font-size: 0.75rem;
-            font-weight: 800;
+        .letter-circle {
+            width: min(8vh, 60px);
+            height: min(8vh, 60px);
             background: var(--ib-gold);
             color: var(--ib-green-dark);
-        }
-
-        /* Tables */
-        .modern-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 10px;
-            margin-top: 20px;
-        }
-
-        .modern-table th {
-            text-align: left;
-            padding: 15px 25px;
-            color: var(--ib-gold);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            background: rgba(0,0,0,0.3);
-        }
-
-        .modern-table td {
-            background: var(--card-bg);
-            padding: 20px 25px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            color: var(--text-main);
-        }
-
-        .modern-table tr td:first-child { border-left: 1px solid rgba(255,255,255,0.05); border-radius: 15px 0 0 15px; font-weight: 700; color: var(--ib-gold); }
-        .modern-table tr td:last-child { border-right: 1px solid rgba(255,255,255,0.05); border-radius: 0 15px 15px 0; }
-
-        /* Buttons */
-        .controls {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 80px;
-            background: var(--ib-green-dark);
-            padding: 0 50px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            border-top: 1px solid var(--card-border);
-            z-index: 100;
+            justify-content: center;
+            font-size: min(3vh, 2rem);
+            margin: 0 auto min(1vh, 10px);
+            font-weight: bold;
         }
 
-        .btn-action {
-            height: 50px;
+        .badge {
+            background: var(--ib-gold);
+            color: var(--ib-green-dark);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: clamp(0.55rem, 1.4vh, 0.65rem);
+            font-weight: 800;
+            display: inline-block;
+            margin-bottom: 8px;
+            width: fit-content;
+        }
+
+        .modern-table-container {
+            overflow-x: auto;
+            margin-top: min(2vh, 20px);
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+        }
+
+        table { width: 100%; border-collapse: collapse; }
+        th { background: rgba(0,0,0,0.4); text-align: left; padding: 12px 15px; font-size: 0.75rem; color: var(--ib-gold); }
+        td { padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; }
+
+        .ghunnah-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .ghunnah-main-card {
+            background: linear-gradient(135deg, rgba(197, 160, 89, 0.15), rgba(0, 0, 0, 0.4));
+            padding: min(3vh, 30px);
+            border-radius: 24px;
+            border: 2px solid var(--ib-gold);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .controls {
+            height: min(10vh, 80px);
             padding: 0 25px;
+            background: var(--ib-green-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .btn {
+            padding: min(1.2vh, 12px) min(2.5vw, 24px);
             border-radius: 12px;
             border: 1px solid var(--card-border);
             background: rgba(255,255,255,0.05);
             color: white;
+            font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: 0.3s;
+            transition: all 0.2s ease;
+            font-size: clamp(0.75rem, 1.8vh, 0.9rem);
         }
 
-        .btn-action:hover:not(:disabled) {
-            background: var(--ib-gold);
-            color: var(--ib-green-dark);
+        .btn:hover:not(:disabled) { background: var(--ib-gold); color: var(--ib-green-dark); }
+        .btn:disabled { opacity: 0.1; cursor: not-allowed; }
+
+        @media (max-width: 640px) {
+            .slide { padding: 20px 15px; border-radius: 0; }
+            .grid-container { grid-template-columns: 1fr; }
+            .alphabet-grid { grid-template-columns: repeat(4, 1fr); }
+            .ghunnah-container { grid-template-columns: 1fr; }
         }
-
-        .btn-action:disabled { opacity: 0.2; cursor: not-allowed; }
-
-        /* Splash Animation Elements */
-        .title-slide-content {
-            text-align: center;
-            margin: auto;
-        }
-
-        .hero-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(3rem, 8vw, 5rem);
-            color: var(--ib-gold);
-            line-height: 1.1;
-        }
-
-        .hero-ornament {
-            width: 150px;
-            height: 3px;
-            background: var(--ib-gold);
-            margin: 30px auto;
-            position: relative;
-        }
-        
-        /* Responsive Utility Classes */
-        .responsive-grid-2 { display: grid; grid-template-columns: 1fr 1fr; }
-        .responsive-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); }
-        .responsive-flex-between { display: flex; justify-content: space-between; align-items: flex-start; }
-        .gap-40 { gap: 40px; }
-        .gap-30 { gap: 30px; }
-        .gap-20 { gap: 20px; }
-        .mt-30 { margin-top: 30px; }
-        .mt-40 { margin-top: 40px; }
-        .mb-15 { margin-bottom: 15px; }
-
-        @media (max-width: 800px) {
-            .header-bar { padding: 0 20px; }
-            .academy-brand span { display: none; }
-            .controls { padding: 0 20px; }
-            .slide { padding: 30px 20px; border-radius: 0; max-height: 100%; border-left: none; border-right: none; }
-            .madd-focus-grid, .info-grid, .responsive-grid-2, .responsive-grid-3 { grid-template-columns: 1fr !important; }
-            .responsive-flex-between { flex-direction: column; gap: 15px; }
-            .btn-action span { display: none; }
-            .vowel-formula { flex-direction: row; justify-content: center; }
-            .arabic { font-size: 2.2rem; }
-        }
-
-        .slide::-webkit-scrollbar { width: 6px; }
-        .slide::-webkit-scrollbar-track { background: transparent; }
-        .slide::-webkit-scrollbar-thumb { background: var(--ib-gold); border-radius: 10px; }
     </style>
 </head>
 <body>
 
     <header class="header-bar">
         <div class="academy-brand">
-            <i class="fa-solid fa-mosque"></i>
-            <span>Al Quran & Tazweed | IBTRA</span>
+            <img src="./ibbplc.jpg" alt="IBB Logo" style="width: 80px; filter: drop-shadow(0 0 5px var(--ib-gold-glow));">
+            <span>Islami Bank Training & Research Academy</span>
         </div>
         <div class="progress-track">
             <div class="progress-fill" id="progressFill"></div>
         </div>
-        <div id="slideNum" style="font-weight: 800; color: var(--ib-gold); width: 80px; text-align: right;">01 / 12</div>
+        <div id="slideNum" style="font-weight: 800; color: var(--ib-gold); font-size: 0.75rem;">01/16</div>
     </header>
 
-    <div class="stage">
+    <main class="viewport">
         
-        <!-- SLIDE 1: WELCOME -->
-        <div class="slide active">
-            <div class="title-slide-content">
-                <span class="slide-tag">Islami Bank Training and Research Academy</span>
-                <h1 class="hero-title">Al-Quran & Tajweed</h1>
-                <div class="hero-ornament"></div>
-                <p style="font-size: 1.2rem; color: var(--text-muted); max-width: 700px; margin: 0 auto;">Mastering the Art of Quranic Phonetics & Traditional Recitation Rules</p>
-                <div style="margin-top: 50px; padding: 30px; border-radius: 20px; background: var(--card-bg); display: inline-block; border: 1px solid var(--card-border);">
-                    <p style="text-transform: uppercase; font-size: 0.75rem; font-weight: 800; color: var(--ib-gold); margin-bottom: 5px;">Instructor</p>
-                    <h3 style="font-size: 2rem; color: var(--white);">Hafiz Mawlana Mukerrom Hossain</h3>
+        <!-- REDESIGNED SLIDE 1: WELCOME -->
+        <div class="slide welcome-slide active">
+            <div class="institution-header">
+                <img src="./ibbplc.jpg" alt="IBB Logo" class="institution-logo">
+                <div class="institution-name">Islami Bank Training & Research Academy</div>
+            </div>
+
+            <div class="course-title-area">
+                <span style="font-size: 0.8rem; color: var(--ib-gold); text-transform: uppercase; letter-spacing: 5px;">Fundamentals of </span>
+                <h1 class="main-title">Al Quran & Tazweed</h1>
+                <p style="font-size: 1.2rem; font-weight: 300; letter-spacing: 2px; color: var(--text-muted);">Learning the correct pronunciation and recitation of the Holy Quran</p>
+            </div>
+
+            <div class="instructor-reveal">
+                <p style="text-transform: uppercase; font-size: 0.6rem; letter-spacing: 3px; color: var(--ib-gold); margin-bottom: 5px;">Lead Instructor</p>
+                <h3 style="font-size: 1.8rem; font-weight: 700; font-family: 'Playfair Display', serif;">Hafiz Mawlana Mukerrom Hossain</h3>
+            </div>
+        </div>
+
+        <!-- NEW SLIDE 2: ARABIC ALPHABET PART 1 -->
+        <div class="slide">
+            <span class="slide-tag">Foundation</span>
+            <h2 class="slide-heading">The Arabic Alphabets (Harf)</h2>
+            <div class="def-box">The beginning of wisdom is learning the correct pronunciation of these 29 letters.</div>
+            <div class="alphabet-grid">
+                <div class="alphabet-card"><span class="char">ا</span><span class="name">Alif</span></div>
+                <div class="alphabet-card"><span class="char">ب</span><span class="name">Ba</span></div>
+                <div class="alphabet-card"><span class="char">ت</span><span class="name">Ta</span></div>
+                <div class="alphabet-card"><span class="char">ث</span><span class="name">Tha</span></div>
+                <div class="alphabet-card"><span class="char">ج</span><span class="name">Jeem</span></div>
+                <div class="alphabet-card"><span class="char">ح</span><span class="name">Haa</span></div>
+                <div class="alphabet-card"><span class="char">خ</span><span class="name">Khaa</span></div>
+                <div class="alphabet-card"><span class="char">د</span><span class="name">Dal</span></div>
+                <div class="alphabet-card"><span class="char">ذ</span><span class="name">Thal</span></div>
+                <div class="alphabet-card"><span class="char">ر</span><span class="name">Ra</span></div>
+                <div class="alphabet-card"><span class="char">ز</span><span class="name">Zayn</span></div>
+                <div class="alphabet-card"><span class="char">س</span><span class="name">Seen</span></div>
+                <div class="alphabet-card"><span class="char">ش</span><span class="name">Sheen</span></div>
+                <div class="alphabet-card"><span class="char">ص</span><span class="name">Saad</span></div>
+                <div class="alphabet-card"><span class="char">ض</span><span class="name">Daad</span></div>
+                <div class="alphabet-card"><span class="char">ط</span><span class="name">Taa</span></div>
+                <div class="alphabet-card"><span class="char">ظ</span><span class="name">Thaa</span></div>
+                <div class="alphabet-card"><span class="char">ع</span><span class="name">'Ayn</span></div>
+                <div class="alphabet-card"><span class="char">غ</span><span class="name">Ghayn</span></div>
+                <div class="alphabet-card"><span class="char">ف</span><span class="name">Fa</span></div>
+                <div class="alphabet-card"><span class="char">ق</span><span class="name">Qaaf</span></div>
+                <div class="alphabet-card"><span class="char">ك</span><span class="name">Kaaf</span></div>
+                <div class="alphabet-card"><span class="char">ل</span><span class="name">Lam</span></div>
+                <div class="alphabet-card"><span class="char">م</span><span class="name">Meem</span></div>
+                <div class="alphabet-card"><span class="char">ن</span><span class="name">Noon</span></div>
+                <div class="alphabet-card"><span class="char">و</span><span class="name">Waw</span></div>
+                <div class="alphabet-card"><span class="char">ه</span><span class="name">Ha</span></div>
+                <div class="alphabet-card"><span class="char">ء</span><span class="name">Hamzah</span></div>
+                <div class="alphabet-card"><span class="char">ي</span><span class="name">Ya</span></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: VOWELS -->
+        <div class="slide">
+            <span class="slide-tag">Lesson 01</span>
+            <h2 class="slide-heading">The 3 Basic Vowels</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px;">Harkat must be pronounced quickly</p>
+            <div class="grid-container">
+                <div class="card">
+                    <div class="letter-circle" style="font-size: 5rem;">ـَ</div>
+                    <h3 style="text-align:center;">Fattah</h3>
+                </div>
+                <div class="card">
+                    <div class="letter-circle" style="font-size: 5rem; padding-bottom: 2.5rem;">ـِ</div>
+                    <h3 style="text-align:center;">Kasrah</h3>
+                </div>
+                <div class="card">
+                    <div class="letter-circle" style="font-size: 5rem;">ـُ</div>
+                    <h3 style="text-align:center;">Dammah</h3>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 2: MADD HARFS -->
+        <!-- SLIDE 5: FUNDAMENTALS -->
         <div class="slide">
-            <span class="slide-tag">Lesson 01: Huroof-e-Maddiyyah</span>
+            <span class="slide-tag">Fundamentals</span>
+            <h2 class="slide-heading">Core Concepts</h2>
+            <div class="def-box">
+                <strong>Tajweed:</strong> Literally "to beautify." Giving every letter its right (Makhraj and Sifat).
+            </div>
+            <div class="grid-container">
+                <div class="card">
+                    <span class="badge">SYMBOL</span>
+                    <h3>Sakin or Zazm</h3>
+                    <p>Indicates the absence of a vowel. Joins 2 letters together.</p>
+                    <div class="arabic" style="text-align: center; margin-top: auto;">ـْ</div>
+                </div>
+                <div class="card">
+                    <span class="badge">SYMBOL</span>
+                    <h3>Tasdeed</h3>
+                    <p>Indicates a doubled letter. Pause slightly on the first part.</p>
+                    <div class="arabic" style="text-align: center; margin-top: auto;">ـّ</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: HARFS OF MADD -->
+        <div class="slide">
+            <span class="slide-tag">Lesson 01</span>
             <h2 class="slide-heading">The 3 Letters of Madd</h2>
-            <p style="color: var(--text-muted); margin-bottom: 20px;">Prolongation occurs only when these letters follow their matching vowels:</p>
-            
-            <div class="madd-focus-grid">
-                <!-- Alif -->
-                <div class="madd-card">
-                    <div class="madd-letter-box">ا</div>
-                    <h3 style="font-size: 1.8rem; margin-bottom: 5px; color: var(--ib-gold);">Alif</h3>
-                    <p style="font-size: 0.9rem; color: var(--text-muted);">Preceded by <strong>Fattah</strong></p>
-                    <div class="vowel-formula arabic">ـَ ا</div>
-                    <div class="arabic" style="margin-top: 15px; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 12px;">بَا</div>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px;">The basic building blocks for prolongation:</p>
+            <div class="grid-container">
+                <div class="card">
+                    <div class="letter-circle">ـَ ا</div>
+                    <h3 style="text-align:center;">Alif</h3>
+                    <p style="text-align:center;">Preceded by <strong>Fattah</strong></p>
+                    <div class="arabic" style="text-align: center; background: rgba(0,0,0,0.2); border-radius: 8px;">بَا</div>
                 </div>
-                <!-- Waw -->
-                <div class="madd-card">
-                    <div class="madd-letter-box">و</div>
-                    <h3 style="font-size: 1.8rem; margin-bottom: 5px; color: var(--ib-gold);">Waw Sakin</h3>
-                    <p style="font-size: 0.9rem; color: var(--text-muted);">Preceded by <strong>Dammah</strong></p>
-                    <div class="vowel-formula arabic">ـُ وْ</div>
-                    <div class="arabic" style="margin-top: 15px; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 12px;">بُو</div>
+                <div class="card">
+                    <div class="letter-circle">ـُ وْ</div>
+                    <h3 style="text-align:center;">Waw Sakin</h3>
+                    <p style="text-align:center;">Preceded by <strong>Dammah</strong></p>
+                    <div class="arabic" style="text-align: center; background: rgba(0,0,0,0.2); border-radius: 8px;">بُو</div>
                 </div>
-                <!-- Ya -->
-                <div class="madd-card">
-                    <div class="madd-letter-box">ي</div>
-                    <h3 style="font-size: 1.8rem; margin-bottom: 5px; color: var(--ib-gold);">Ya Sakin</h3>
-                    <p style="font-size: 0.9rem; color: var(--text-muted);">Preceded by <strong>Kasrah</strong></p>
-                    <div class="vowel-formula arabic">ـِ يْ</div>
-                    <div class="arabic" style="margin-top: 15px; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 12px;">بِي</div>
+                <div class="card">
+                    <div class="letter-circle">ـِ يْ</div>
+                    <h3 style="text-align:center;">Ya Sakin</h3>
+                    <p style="text-align:center;">Preceded by <strong>Kasrah</strong></p>
+                    <div class="arabic" style="text-align: center; background: rgba(0,0,0,0.2); border-radius: 8px;">بِي</div>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 3: LEEN LETTERS -->
+        <!-- SLIDE 7: VERTICAL HARAKAT -->
         <div class="slide">
-            <span class="slide-tag">Lesson 02: Harf-e-Leen</span>
-            <h2 class="slide-heading">The 2 Letters of Softness</h2>
-            <p style="color: var(--text-muted); margin-bottom: 30px;">Pronounced quickly and softly, UNLESS a stop (Waqf) occurs.</p>
-            
-            <div class="responsive-grid-2 gap-40">
-                <div class="madd-card" style="border: 2px dashed var(--card-border);">
-                    <div class="madd-letter-box" style="background: rgba(255,255,255,0.1); color: var(--ib-gold);">وْ</div>
-                    <h3 style="color: var(--ib-gold); font-size: 1.8rem; margin-bottom: 5px;">Waw Leen</h3>
-                    <p style="color: var(--text-muted);">Waw Sakin preceded by <strong>Fattah</strong></p>
-                    <div class="vowel-formula arabic">ـَ وْ</div>
-                    <div class="arabic" style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 12px;">خَوْفٍ</div>
+            <span class="slide-tag">Lesson 01: Extension</span>
+            <h2 class="slide-heading">Standing / Vertical Harakat</h2>
+            <div class="def-box">These symbols function exactly like a <strong>Madd Letter</strong> and are prolonged for <strong>1 Alif</strong>.</div>
+            <div class="grid-container">
+                <div class="card">
+                    <div class="badge">KHADA ZABAR</div>
+                    <h3>Long Fattah</h3>
+                    <p>A standing stroke above. Functions as Alif Madd.</p>
+                    <div class="arabic" style="text-align:center; background: rgba(0,0,0,0.2); border-radius: 10px; padding: 10px;">ـٰ</div>
                 </div>
-                <div class="madd-card" style="border: 2px dashed var(--card-border);">
-                    <div class="madd-letter-box" style="background: rgba(255,255,255,0.1); color: var(--ib-gold);">يْ</div>
-                    <h3 style="color: var(--ib-gold); font-size: 1.8rem; margin-bottom: 5px;">Ya Leen</h3>
-                    <p style="color: var(--text-muted);">Ya Sakin preceded by <strong>Fattah</strong></p>
-                    <div class="vowel-formula arabic">ـَ يْ</div>
-                    <div class="arabic" style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 12px;">قُرَيْشٍ</div>
+                <div class="card">
+                    <div class="badge">KHADA ZER</div>
+                    <h3>Long Kasrah</h3>
+                    <p>A standing stroke below. Functions as Ya Madd.</p>
+                    <div class="arabic" style="text-align:center; background: rgba(0,0,0,0.2); border-radius: 10px; padding: 10px;">ـٖ</div>
+                </div>
+                <div class="card">
+                    <div class="badge">ULTA PESH</div>
+                    <h3>Opposite Dammah</h3>
+                    <p>An inverted Pesh. Functions as Waw Madd.</p>
+                    <div class="arabic" style="text-align:center; background: rgba(0,0,0,0.2); border-radius: 10px; padding: 10px;">ـٗ</div>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 4: 1 ALIF MADD -->
+        <!-- SLIDE 8: LEEN LETTERS -->
         <div class="slide">
-            <span class="slide-tag">Lesson 03: 1 Alif Elongation</span>
-            <h2 class="slide-heading">Natural Madd Rules</h2>
-            <div class="info-grid mt-30">
-                <div class="feature-card">
-                    <div class="bit-badge">1 BIT</div>
-                    <h4>1. Madd-e-Tabaee</h4>
-                    <p style="color: var(--text-muted);">The standard natural prolongation.</p>
-                    <div class="arabic" style="margin-top: 15px;">قَالَ — يَقُولُ — فِيهَا</div>
+            <span class="slide-tag">Lesson 02: Leen Harfs</span>
+            <h2 class="slide-heading">The 2 Letters of Leen</h2>
+            <div class="def-box"><strong>Leen (Softness):</strong> Pronounced easily. <strong>Waw</strong> or <strong>Ya</strong> Sakin preceded by a <strong>Fattah</strong>.</div>
+            <div class="grid-container">
+                <div class="card">
+                    <div class="letter-circle" style="background: rgba(255,255,255,0.1); color:var(--ib-gold)">ـَ وْ</div>
+                    <h3 style="text-align:center;">Waw Leen</h3>
+                    <p style="text-align:center;">Fattah + Waw Sakin</p>
+                    <div class="arabic" style="text-align: center; margin-top:auto; background:rgba(0,0,0,0.2); padding:5px; border-radius:8px;">قَوْلٌ</div>
                 </div>
-                <div class="feature-card">
-                    <div class="bit-badge">1 BIT</div>
-                    <h4>2. Madd-e-Badl</h4>
-                    <p style="color: var(--text-muted);">Hamzah followed by a Madd letter.</p>
-                    <div class="arabic" style="margin-top: 15px;">آمَنَ — أُوتِيَ — إِيمَانًا</div>
-                </div>
-                <div class="feature-card" style="grid-column: 1 / -1; border-color: var(--ib-gold);">
-                    <div class="bit-badge" style="background: var(--ib-gold); color: var(--ib-green-dark);">1-3 BITS</div>
-                    <h4>3. Madd-e-Leen (At Stop)</h4>
-                    <p style="color: var(--text-muted);">When stopping on a word ending with a Leen letter.</p>
-                    <div class="arabic" style="margin-top: 15px; text-align: center;">قُرَيْشٍ — خَوْفٍ — لَيْلٍ</div>
+                <div class="card">
+                    <div class="letter-circle" style="background: rgba(255,255,255,0.1); color:var(--ib-gold)">ـَ يْ</div>
+                    <h3 style="text-align:center;">Ya Leen</h3>
+                    <p style="text-align:center;">Fattah + Ya Sakin</p>
+                    <div class="arabic" style="text-align: center; margin-top:auto; background:rgba(0,0,0,0.2); padding:5px; border-radius:8px;">بَيْتٌ</div>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 5: 3 ALIF MADD -->
+        <!-- SLIDE 9: 1 ALIF MADD DEFINITIONS -->
         <div class="slide">
-            <span class="slide-tag">Lesson 04: 3 Alif Elongation</span>
-            <h2 class="slide-heading">Medium Duration Madd</h2>
-            <div class="info-grid mt-40">
-                <div class="feature-card" style="padding: 40px;">
-                    <div class="bit-badge" style="background: var(--ib-gold); color: var(--ib-green-dark);">3 BITS</div>
-                    <h4>4. Madd-e-Ardee</h4>
-                    <p style="color: var(--text-muted);">Stopping on a word where the last letter is preceded by Madd.</p>
-                    <div class="arabic" style="margin-top: 20px; font-size: 3.5rem; text-align: center;">تَعْلَمُونَ</div>
+            <span class="slide-tag">Group 01: 1 Alif</span>
+            <h2 class="slide-heading">Prolonging of 1 Alif</h2>
+            <div class="grid-container">
+                <div class="card">
+                    <span class="badge">1</span>
+                    <h3>Madd e Tabaee</h3>
+                    <p>The <strong>Natural Madd</strong>. It occurs when a Madd letter appears.</p>
+                    <p>If Long Fattah, Long Kathrah or Long Dammah appears on a letter.</p>
+                    <div class="arabic" style="text-align:center; margin-top: auto;">قَالَ</div>
                 </div>
-                <div class="feature-card" style="padding: 40px;">
-                    <div class="bit-badge" style="background: var(--ib-gold); color: var(--ib-green-dark);">3 BITS</div>
-                    <h4>5. Madd-e-Munfasil</h4>
-                    <p style="color: var(--text-muted);">Madd at the end of word and Hamzah at start of next.</p>
-                    <div class="arabic" style="margin-top: 20px; font-size: 3.5rem; text-align: center;">بِمَا أُنْزِلَ</div>
+                <div class="card">
+                    <span class="badge">2</span>
+                    <h3>Madd e Leen</h3>
+                    <p>Softness. Occurs on <strong>Waw</strong> or <strong>Ya</strong> Sakin preceded by <strong>Fattah</strong>. Prolonged slightly when stopping.</p>
+                    <div class="arabic" style="text-align:center; margin-top: auto;">خَوْفٍ</div>
+                </div>
+                <div class="card">
+                    <span class="badge">3</span>
+                    <h3>Madd e Badl</h3>
+                    <p>When <strong>Hamza</strong> is prolonged for 1 Alif.</p>
+                    <div class="arabic" style="text-align:center; margin-top: auto;">آمَنَ</div>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 6: 4 ALIF MADD -->
+        <!-- SLIDE 10: 3 ALIF MADD -->
         <div class="slide">
-            <span class="slide-tag">Lesson 05: 4 Alif Elongation</span>
-            <h2 class="slide-heading">Compulsory Long Madd</h2>
-            <div class="info-grid mt-30">
-                <div class="feature-card">
-                    <div class="bit-badge" style="background: var(--danger); color: white;">4 BITS</div>
-                    <h4>6. Madd-e-Muttasil</h4>
-                    <p style="color: var(--text-muted);">Madd + Hamzah in the same word.</p>
-                    <div class="arabic" style="margin-top: 10px;">جَاءَ</div>
+            <span class="slide-tag">Group 02: 3 Alif</span>
+            <h2 class="slide-heading">Prolonging of 3 Alif</h2>
+            <div class="grid-container">
+                <div class="card">
+                    <span class="badge">MADD ARDEE</span>
+                    <h3>Madd e Ardee</h3>
+                    <p> Occurs when stopping on a word where the second-last letter is a Madd letter.</p>
+                    <div class="arabic" style="text-align:center; margin-top: auto;">تَعْلَمُونَ</div>
                 </div>
-                <div class="feature-card">
-                    <div class="bit-badge" style="background: var(--danger); color: white;">4 BITS</div>
-                    <h4>7. Kalmee Musakkal</h4>
-                    <p style="color: var(--text-muted);">Madd followed by a Tasdeed.</p>
-                    <div class="arabic" style="margin-top: 10px;">الضَّالِّينَ</div>
-                </div>
-                <div class="feature-card">
-                    <div class="bit-badge" style="background: var(--danger); color: white;">4 BITS</div>
-                    <h4>8. Kalmee Mukhaffaf</h4>
-                    <p style="color: var(--text-muted);">Madd followed by a Sakin.</p>
-                    <div class="arabic" style="margin-top: 10px;">آلْآنَ</div>
-                </div>
-                <div class="feature-card">
-                    <div class="bit-badge" style="background: var(--danger); color: white;">4 BITS</div>
-                    <h4>9. Lajim Harfee</h4>
-                    <p style="color: var(--text-muted);">Initial letters of Surahs.</p>
-                    <div class="arabic" style="margin-top: 10px;">الٓمّٓ</div>
+                <div class="card">
+                    <span class="badge">MADD MUNFASIL</span>
+                    <h3>Madd e Munfasil</h3>
+                    <p>Occurs when <strong>Alif</strong> appears next to a Madd letter.</p>
+                    <div class="arabic" style="text-align:center; margin-top: auto;">بِمَا أُنْزِلَ</div>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 7: NOON SAKIN GIST -->
+        <!-- SLIDE 11: 4 ALIF MADD -->
         <div class="slide">
-            <span class="slide-tag">Lesson 06: Noon Sakin & Tanween</span>
-            <h2 class="slide-heading">The 4 Key Rulings</h2>
+            <span class="slide-tag">Group 03: 4 Alif</span>
+            <h2 class="slide-heading">Prolonging of 4 Alif</h2>
+            <div class="grid-container" style="grid-template-columns: repeat(2, 1fr);">
+                <div class="card" style="padding: 12px;">
+                    <span class="badge">LAJIM</span>
+                    <h4 style="font-size:0.8rem;">Harfi Mukhaf-faf</h4>
+                    <div class="arabic" style="font-size: 1.5rem;">الٓر</div>
+                </div>
+                <div class="card" style="padding: 12px;">
+                    <span class="badge">LAJIM</span>
+                    <h4 style="font-size:0.8rem;">Harfi Musakkal</h4>
+                    <div class="arabic" style="font-size: 1.5rem;">الٓمّٓ</div>
+                </div>
+                <div class="card" style="padding: 12px;">
+                    <span class="badge">LAJIM</span>
+                    <h4 style="font-size:0.8rem;">Kalmi Mukhaf-faf</h4>
+                    <p>Occurs when <strong>Zazm (Sakeen)</strong> appears on the next letter to a Madd letter and the next letter is a Harf.</p>
+                    <div class="arabic" style="font-size: 1.5rem;">آلْآنَ</div>
+                </div>
+                <div class="card" style="padding: 12px;">
+                    <span class="badge">LAJIM</span>
+                    <h4 style="font-size:0.8rem;">Kalmi Musakkal</h4>
+                    <p>Occurs when <strong>Mushaddah (Tasdeed)</strong> appears on the next letter to a Madd letter.</p>
+                    <div class="arabic" style="font-size: 1.5rem;">الضَّالِّينَ</div>
+                </div>
+            </div>
+            <div class="card" style="margin-top: 10px; flex-direction: row; align-items: center; justify-content: space-between; padding: 15px;">
+                <div>
+                    <span class="badge">MUTTASIL</span>
+                    <h3>Madd e Muttasil</h3>
+                </div>
+                <p>Occurs when <strong>Round Hamzah</strong> appears next to a Madd letter.</p>
+                <div class="arabic">جَاءَ</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 12: NOON SAKIN TABLE -->
+        <div class="slide">
+            <span class="slide-tag">Rules of Nasalization</span>
+            <h2 class="slide-heading">Noon Sakin & Tanween</h2>
             <div class="modern-table-container">
-                <table class="modern-table">
+                <table>
                     <thead>
-                        <tr><th>Ruling</th><th>The Letters</th><th>Method</th><th>Example</th></tr>
+                        <tr><th>Rule</th><th>Letters</th><th>Meaning</th><th>Example</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td>Izhaar</td><td>ء ه ع ح غ خ</td><td>Clear Pronunciation</td><td class="arabic" style="font-size: 1.8rem;">مِنْ خَوْفٍ</td></tr>
-                        <tr><td>Iqlaab</td><td>ب</td><td>Change to 'M'</td><td class="arabic" style="font-size: 1.8rem;">مِنْ بَعْدِ</td></tr>
-                        <tr><td>Idghaam</td><td>ي ر م ل و ن</td><td>Merging Letters</td><td class="arabic" style="font-size: 1.8rem;">مَنْ يَقُولُ</td></tr>
-                        <tr><td>Ikhfaa</td><td>Rest 15</td><td>Suppressed Sound</td><td class="arabic" style="font-size: 1.8rem;">أَنْزَلْنَا</td></tr>
+                        <tr><td><strong>Izhar</strong></td><td class="arabic" style="color:var(--ib-gold)">ء ه ع ح غ خ</td><td>Clear</td><td class="arabic" style="font-size: 2rem;">مِنْ خَوْفٍ</td></tr>
+                        <tr><td><strong>Idghaam</strong></td><td class="arabic" style="color:var(--ib-gold)">ي ر م ل و ن</td><td>Assimilation</td><td class="arabic" style="font-size: 2rem;">مَنْ يَقُولُ</td></tr>
+                        <tr><td><strong>Iqlaab</strong></td><td class="arabic" style="color:var(--ib-gold)">ب</td><td>Change</td><td class="arabic" style="font-size: 2rem;">مِنْ بَعْدِ</td></tr>
+                        <tr><td><strong>Ikhfaa</strong></td><td class="arabic" style="color:var(--ib-gold)">ت ث ج د ذ ز س ش ص ض ط ظ ف ق ك</td><td>Concealment</td><td class="arabic" style="font-size: 2rem;">أَنْزَلْنَا</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- SLIDE 8: WAJIB GHUNNAH -->
+        <!-- SLIDE 13: IDGHAAM DETAILS -->
         <div class="slide">
-            <span class="slide-tag">Lesson 07: Compulsory Rule</span>
+            <span class="slide-tag">Assimilation</span>
+            <h2 class="slide-heading">Idghaam Details</h2>
+            <p>When any letter of idgaam appears next to a noon sakin or tanween, <strong>Mushaddah</strong> need to be introduced on the letter of idgaam.</p>
+            <div class="grid-container">
+                <div class="card" style="border-left: 4px solid var(--success);">
+                    <h3 style="color: var(--success);">Ma'al Ghunnah</h3>
+                    <p>With Nasalization. Letters: <span class="arabic" style="font-size: 4rem;">ي ن م و</span></p>
+                    <div class="arabic" style="text-align: center; margin-top: 5rem;">مَنْ يَقُولُ</div>
+                </div>
+                <div class="card" style="border-left: 4px solid var(--text-white);">
+                    <h3 style="color: var(--text-white);">Bi-gairi Ghunnah</h3>
+                    <p>Without Nasalization. Letters: <span class="arabic" style="font-size: 4rem;">ل ر</span></p>
+                    <div class="arabic" style="text-align: center; margin-top: 5rem;">مِنْ لَّدُنْكَ</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 14: WAJIB GHUNNAH -->
+        <div class="slide">
+            <span class="slide-tag">Compulsory Nasalization</span>
             <h2 class="slide-heading">Wajib Ghunnah</h2>
-            <div class="responsive-grid-2 gap-40 mt-30">
-                <div style="background: rgba(0,0,0,0.3); padding: 40px; border-radius: 30px; border: 1px solid var(--ib-gold);">
-                    <h3 style="color: var(--ib-gold); font-size: 2.5rem; margin-bottom: 20px;">The Master Rule</h3>
-                    <p style="font-size: 1.2rem; line-height: 1.8; opacity: 0.9; color: var(--text-main);">Whenever <strong>Noon (نّ)</strong> or <strong>Meem (مّ)</strong> carries a <strong>Tasdeed</strong>, it is COMPULSORY to perform Ghunnah for 2 bits.</p>
+            <div class="ghunnah-container">
+                <div class="ghunnah-main-card">
+                    <h3>The Golden Rule</h3>
+                    <p style="font-weight: 300;">Whenever Noon (نّ) or Meem (مّ) has a <strong>Tasdeed</strong>, Ghunnah is Mandatory for 2 counts.</p>
+                    <div style="margin-top: 15px; background: var(--ib-gold); color: var(--ib-green-dark); padding: 5px 12px; border-radius: 8px; font-weight: 800; font-size: 0.7rem; width: fit-content;">2 COUNTS</div>
                 </div>
-                <div style="display: flex; flex-direction: column; gap: 20px;">
-                    <div class="feature-card responsive-flex-between" style="align-items: center;">
-                        <h4 style="margin: 0;">Noon Mushaddad</h4>
-                        <div class="arabic" style="font-size: 2.5rem;">إِنَّ</div>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div class="card" style="flex-direction: row; justify-content: space-between; align-items: center; padding: 15px;">
+                        <h4 style="color: var(--ib-gold);">Noon Mushaddad</h4>
+                        <div class="arabic">إِنَّ</div>
                     </div>
-                    <div class="feature-card responsive-flex-between" style="align-items: center;">
-                        <h4 style="margin: 0;">Meem Mushaddad</h4>
-                        <div class="arabic" style="font-size: 2.5rem;">ثُمَّ</div>
+                    <div class="card" style="flex-direction: row; justify-content: space-between; align-items: center; padding: 15px;">
+                        <h4 style="color: var(--ib-gold);">Meem Mushaddad</h4>
+                        <div class="arabic">ثُمَّ</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 9: IDGHAAM TYPES -->
+        <!-- SLIDE 15: IKHFA DETAILS -->
         <div class="slide">
-            <span class="slide-tag">Lesson 08: Idghaam Categories</span>
-            <h2 class="slide-heading">Blending Rules</h2>
-            <div class="responsive-grid-2 gap-30 mt-30">
-                <!-- MA AL -->
-                <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid var(--success); padding: 30px; border-radius: 24px;">
-                    <h3 style="color: var(--success);">Idghaam Ma'al Ghunnah</h3>
-                    <div class="arabic" style="font-size: 1.5rem; color: var(--success); margin: 10px 0;">إدغام مع الغنة</div>
-                    <p style="font-size: 0.85rem; font-weight: 700; margin-bottom: 15px; color: var(--success);">MERGING WITH NASAL SOUND</p>
-                    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                        <span style="background: var(--success); color: white; padding: 5px 15px; border-radius: 8px;" class="arabic">ي</span>
-                        <span style="background: var(--success); color: white; padding: 5px 15px; border-radius: 8px;" class="arabic">ن</span>
-                        <span style="background: var(--success); color: white; padding: 5px 15px; border-radius: 8px;" class="arabic">م</span>
-                        <span style="background: var(--success); color: white; padding: 5px 15px; border-radius: 8px;" class="arabic">و</span>
-                    </div>
-                    <div class="arabic" style="text-align: center; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px;">مَن يَقُولُ</div>
-                </div>
-                <!-- BI GAIRI -->
-                <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid var(--danger); padding: 30px; border-radius: 24px;">
-                    <h3 style="color: var(--danger);">Idghaam Bi-ghairi Ghunnah</h3>
-                    <div class="arabic" style="font-size: 1.5rem; color: var(--danger); margin: 10px 0;">إدغام بغير غنة</div>
-                    <p style="font-size: 0.85rem; font-weight: 700; margin-bottom: 15px; color: var(--danger);">MERGING WITHOUT NASAL SOUND</p>
-                    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                        <span style="background: var(--danger); color: white; padding: 5px 15px; border-radius: 8px;" class="arabic">ل</span>
-                        <span style="background: var(--danger); color: white; padding: 5px 15px; border-radius: 8px;" class="arabic">ر</span>
-                    </div>
-                    <div class="arabic" style="text-align: center; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px;">مِن لَّدُنْكَ</div>
-                </div>
+            <span class="slide-tag">Concealment</span>
+            <h2 class="slide-heading">Ikhfa Rule</h2>
+            <div class="card">
+                <h3>Hiding the Sound</h3>
+                <p>When Noon Sakin is followed by Ikhfa letters, the sound is suppressed in the nose.</p>
+                <div class="arabic" style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 12px; text-align: center; font-size: 3rem;">ك ق ف ظ ط ض ص ش س ز ذ د ج ث ت</div>
+                <div class="arabic" style="text-align: center; margin-top: 30px;">أَنْزَلْنَا</div>
             </div>
         </div>
 
-        <!-- SLIDE 10: IQLAAB & IZHAAR -->
+        <!-- SLIDE 16: MEEM SAKIN -->
         <div class="slide">
-            <span class="slide-tag">Lesson 09: Clarity & Change</span>
-            <h2 class="slide-heading">Iqlaab & Izhaar</h2>
-            <div class="responsive-grid-2 gap-30 mt-30">
-                <div class="feature-card" style="border-top: 6px solid var(--ib-gold);">
-                    <h4>Iqlaab (Conversion)</h4>
-                    <div class="arabic" style="font-size: 1.5rem; margin-bottom: 15px; color: var(--ib-gold);">إقلاب</div>
-                    <p style="font-size: 0.95rem; line-height: 1.6; color: var(--text-muted);">Noon Sakin turns into a <strong>Meem (م)</strong> sound when meeting <strong>Baa (ب)</strong>.</p>
-                    <div class="arabic" style="text-align: center; padding: 30px;">مِنْ بَعْدِ</div>
+            <span class="slide-tag">Lesson 05</span>
+            <h2 class="slide-heading">Meem Sakin</h2>
+            <div class="grid-container" style="grid-template-columns: 1fr; gap: 10px;">
+                <div class="card" style="flex-direction: row; align-items: center; gap: 15px; padding: 10px;">
+                    <div class="arabic" style="width: 40px;">ب</div>
+                    <div><h3 style="margin:0;">1. Ikhfa</h3><p style="margin:0; font-size: 0.75rem;">Concealing the Meem sound.</p></div>
                 </div>
-                <div class="feature-card" style="border-top: 6px solid var(--success);">
-                    <h4 style="color: var(--success);">Izhaar (Clarity)</h4>
-                    <div class="arabic" style="font-size: 1.5rem; margin-bottom: 15px; color: var(--success);">إظهار</div>
-                    <p style="font-size: 0.95rem; line-height: 1.6; color: var(--text-muted);">Pronounce clearly from the throat without any hidden sound.</p>
-                    <div class="arabic" style="text-align: center; padding: 30px;">مِنْ خَوْفٍ</div>
+                <div class="card" style="flex-direction: row; align-items: center; gap: 15px; padding: 10px;">
+                    <div class="arabic" style="width: 40px;">م</div>
+                    <div><h3 style="margin:0;">2. Idhgaam</h3><p style="margin:0; font-size: 0.75rem;">Blending with the next Meem.</p></div>
                 </div>
-            </div>
-        </div>
-
-        <!-- SLIDE 11: IKHFA -->
-        <div class="slide">
-            <span class="slide-tag">Lesson 10: Concealment</span>
-            <h2 class="slide-heading">Ikhfa (Hiding)</h2>
-            <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid var(--blue); padding: 35px; border-radius: 30px; margin-top: 20px;">
-                <div class="responsive-flex-between mb-15">
-                    <div>
-                        <h3 style="color: var(--blue); font-size: 1.8rem; margin-bottom: 5px;">Definition</h3>
-                        <p style="color: var(--text-main); line-height: 1.5; font-size: 1.05rem;">
-                            Ikhfa means <strong>'concealment or hiding'</strong>. <br>
-                            When the <em>Noon Saakin</em> or <em>Tanween</em> is followed by any of the Ikhfa letters, the sound should be <strong>suppressed</strong> and pronounced with Ghunnah.
-                        </p>
-                    </div>
-                    <div class="arabic" style="color: var(--blue); font-size: 1.8rem;">إخفاء</div>
-                </div>
-                
-                <h4 style="color: var(--blue); margin: 15px 0 10px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">The 15 Letters of Ikhfa</h4>
-                <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 20px;">
-                    <span class="arabic" style="background: var(--ib-gold); color: var(--ib-green-dark); padding: 2px 18px; border-radius: 12px; font-size: 2rem;">ت</span>
-                    <span class="arabic" style="background: var(--ib-gold); color: var(--ib-green-dark); padding: 2px 18px; border-radius: 12px; font-size: 2rem;">ث</span>
-                    <span class="arabic" style="background: var(--ib-gold); color: var(--ib-green-dark); padding: 2px 18px; border-radius: 12px; font-size: 2rem;">ج</span>
-                    <span class="arabic" style="background: var(--ib-gold); color: var(--ib-green-dark); padding: 2px 18px; border-radius: 12px; font-size: 2rem;">د</span>
-                    <span class="arabic" style="background: var(--ib-gold); color: var(--ib-green-dark); padding: 2px 18px; border-radius: 12px; font-size: 2rem;">ذ</span>
-                    <span class="arabic" style="background: var(--ib-gold); color: var(--ib-green-dark); padding: 2px 18px; border-radius: 12px; font-size: 2rem;">ز</span>
-                    <span class="arabic" style="background: var(--ib-gold); color: var(--ib-green-dark); padding: 2px 18px; border-radius: 12px; font-size: 2rem;">س</span>
-                    <span class="arabic" style="background: var(--ib-gold); color: var(--ib-green-dark); padding: 2px 18px; border-radius: 12px; font-size: 2rem;">ش</span>
-                    <span class="arabic" style="background: var(--ib-gold); color: var(--ib-green-dark); padding: 2px 18px; border-radius: 12px; font-size: 2rem;">ص</span>
-                    <span class="arabic" style="background: var(--ib-gold); color: var(--ib-green-dark); padding: 2px 18px; border-radius: 12px; font-size: 2rem;">ض</span>
-                    <span class="arabic" style="background: var(--ib-gold); color: var(--ib-green-dark); padding: 2px 18px; border-radius: 12px; font-size: 2rem;">ط</span>
-                    <span class="arabic" style="background: var(--ib-gold); color: var(--ib-green-dark); padding: 2px 18px; border-radius: 12px; font-size: 2rem;">ظ</span>
-                    <span class="arabic" style="background: var(--ib-gold); color: var(--ib-green-dark); padding: 2px 18px; border-radius: 12px; font-size: 2rem;">ف</span>
-                    <span class="arabic" style="background: var(--ib-gold); color: var(--ib-green-dark); padding: 2px 18px; border-radius: 12px; font-size: 2rem;">ق</span>
-                    <span class="arabic" style="background: var(--ib-gold); color: var(--ib-green-dark); padding: 2px 18px; border-radius: 12px; font-size: 2rem;">ك</span>
-                </div>
-                <div style="margin-top: 20px; text-align: center;">
-                    <div class="arabic" style="font-size: 2.8rem;">أَنْزَلْنَا — مِنْ قَبْلُ</div>
+                <div class="card" style="flex-direction: row; align-items: center; gap: 15px; padding: 10px;">
+                    <div class="arabic" style="width: 40px; font-size: 0.8rem;">Rest</div>
+                    <div><h3 style="margin:0;">3. Izhar</h3><p style="margin:0; font-size: 0.75rem;">Clear pronunciation for other letters.</p></div>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 12: MEEM SAKIN -->
-        <div class="slide">
-            <span class="slide-tag">Lesson 11: Meem Sakin Rules</span>
-            <h2 class="slide-heading">The Final Chapter</h2>
-            <div class="responsive-grid-3 gap-20 mt-40">
-                <div class="feature-card" style="border-top: 6px solid var(--success);">
-                    <div class="bit-badge" style="background: var(--success); color: white;">HIDING</div>
-                    <h4 style="color: var(--success); margin-top: 15px;">Ikhfa Shafawi</h4>
-                    <p style="font-size: 0.8rem; margin: 10px 0; color: var(--text-muted);">Meem meeting <span class="highlight-gold">ب</span></p>
-                    <div class="arabic" style="text-align: center; margin-top: 15px;">تَرْمِيهِمْ بِحِجَارَةٍ</div>
-                </div>
-                <div class="feature-card" style="border-top: 6px solid var(--ib-gold);">
-                    <div class="bit-badge">MERGING</div>
-                    <h4 style="margin-top: 15px;">Idghaam Shafawi</h4>
-                    <p style="font-size: 0.8rem; margin: 10px 0; color: var(--text-muted);">Meem meeting <span class="highlight-gold">م</span></p>
-                    <div class="arabic" style="text-align: center; margin-top: 15px;">كَمْ مِنْ فِئَةٍ</div>
-                </div>
-                <div class="feature-card" style="border-top: 6px solid var(--blue);">
-                    <div class="bit-badge" style="background: var(--blue); color: var(--ib-green-dark);">CLEAR</div>
-                    <h4 style="color: var(--blue); margin-top: 15px;">Izhaar Shafawi</h4>
-                    <p style="font-size: 0.8rem; margin: 10px 0; color: var(--text-muted);">Meem meeting rest</p>
-                    <div class="arabic" style="text-align: center; margin-top: 15px;">لَكُمْ دِينُكُمْ</div>
-                </div>
+        <div class="slide welcome-slide">
+            <h1 class="main-title" style="font-size: 5rem;">BarakAllahu Feekum</h1>
+            <p class="sub-title" style="letter-spacing: 10px; color: var(--ib-gold); font-weight: 800;">END OF MODULE</p>
+            <div class="instructor-reveal" style="border-color: transparent;">
+                <p class="instructor-name" style="font-size: 1.5rem; opacity: 0.8;">Hope we will meet at your designated branches</p>
             </div>
         </div>
 
-    </div>
+    </main>
 
-    <div class="controls">
-        <button class="btn-action" id="prevBtn" disabled>
-            <i class="fa-solid fa-chevron-left"></i> <span>Back</span>
-        </button>
-        <button class="btn-action" id="nextBtn">
-            <span>Next Slide</span> <i class="fa-solid fa-chevron-right"></i>
-        </button>
-    </div>
+    <footer class="controls">
+        <button class="btn" id="prevBtn" disabled><i class="fa-solid fa-chevron-left"></i> <span>Back</span></button>
+        <div id="slideIndicator" style="font-weight: 800; color: var(--text-muted); font-size: 0.7rem; letter-spacing: 1px;"></div>
+        <button class="btn" id="nextBtn" style="background: var(--ib-green); color: white;"><span>Next</span> <i class="fa-solid fa-chevron-right"></i></button>
+    </footer>
 
     <script>
         const slides = document.querySelectorAll('.slide');
@@ -689,64 +769,41 @@
         const prevBtn = document.getElementById('prevBtn');
         const progressFill = document.getElementById('progressFill');
         const slideNumDisplay = document.getElementById('slideNum');
+        const slideIndicator = document.getElementById('slideIndicator');
         let currentSlide = 0;
 
         function updateSlide() {
             slides.forEach((slide, index) => {
                 slide.classList.toggle('active', index === currentSlide);
             });
-
-            // Update Header info
             const progress = ((currentSlide + 1) / slides.length) * 100;
             progressFill.style.width = progress + '%';
-            slideNumDisplay.innerText = `${String(currentSlide + 1).padStart(2, '0')} / ${slides.length}`;
-
-            // Button state
+            slideNumDisplay.innerText = `${String(currentSlide + 1).padStart(2, '0')}/${String(slides.length).padStart(2, '0')}`;
+            slideIndicator.innerText = `${currentSlide + 1} OF ${slides.length}`;
             prevBtn.disabled = currentSlide === 0;
-            
-            // Icon swap on last slide
-            const nextSpan = nextBtn.querySelector('span');
-            const nextIcon = nextBtn.querySelector('i');
+            const nextText = nextBtn.querySelector('span');
             if (currentSlide === slides.length - 1) {
-                if(nextSpan) nextSpan.innerText = 'Restart';
-                nextIcon.className = 'fa-solid fa-rotate-right';
+                nextText.innerText = 'Restart';
+                nextBtn.style.background = 'var(--ib-gold)';
+                nextBtn.style.color = 'var(--ib-green-dark)';
             } else {
-                if(nextSpan) nextSpan.innerText = 'Next Slide';
-                nextIcon.className = 'fa-solid fa-chevron-right';
+                nextText.innerText = 'Next';
+                nextBtn.style.background = 'var(--ib-green)';
+                nextBtn.style.color = 'white';
             }
         }
 
         nextBtn.addEventListener('click', () => {
-            if (currentSlide < slides.length - 1) {
-                currentSlide++;
-            } else {
-                currentSlide = 0;
-            }
+            currentSlide = (currentSlide < slides.length - 1) ? currentSlide + 1 : 0;
             updateSlide();
         });
-
         prevBtn.addEventListener('click', () => {
-            if (currentSlide > 0) {
-                currentSlide--;
-                updateSlide();
-            }
+            if (currentSlide > 0) { currentSlide--; updateSlide(); }
         });
-
-        // Keyboard support
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' || e.key === ' ') nextBtn.click();
-            if (e.key === 'ArrowLeft') prevBtn.click();
+            if(e.key === "ArrowRight") nextBtn.click();
+            if(e.key === "ArrowLeft") prevBtn.click();
         });
-
-        // Touch swipe support
-        let touchStartX = 0;
-        document.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
-        document.addEventListener('touchend', e => {
-            const touchEndX = e.changedTouches[0].screenX;
-            if (touchStartX - touchEndX > 50) nextBtn.click();
-            if (touchEndX - touchStartX > 50) prevBtn.click();
-        });
-
         updateSlide();
     </script>
 </body>
